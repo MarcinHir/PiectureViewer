@@ -26,8 +26,13 @@ namespace PiectureViewer
                 {
                     pbPicture.ImageLocation = pictureUrl;
                     pbPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+                    btnDeletePicture.Enabled = true;
                 } 
+                else
+                    btnDeletePicture.Enabled= false;
             }
+            else
+                btnDeletePicture.Enabled = false;
         }
 
         private void btnAddPicture_Click(object sender, EventArgs e)
@@ -37,12 +42,11 @@ namespace PiectureViewer
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {      
-                pbPicture.ImageLocation = openFileDialog.FileName;
-                pbPicture.SizeMode = PictureBoxSizeMode.StretchImage;
                 var picture = _fileHelper.DeserializeFromFile();
                 picture.Url = openFileDialog.FileName;
                 _fileHelper.SerializeToFile(picture);
             }
+            LoadPicture();  
         }
 
         private void btnDeletePicture_Click(object sender, EventArgs e)
@@ -56,6 +60,7 @@ namespace PiectureViewer
                 picture.Url = null;
                 _fileHelper.SerializeToFile(picture);
             }
+            LoadPicture();
         }
     }
 }
